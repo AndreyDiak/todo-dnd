@@ -34,7 +34,7 @@ export const CreateProjectModal = React.memo(() => {
                   header: e.target.value,
                }))
             }
-            className="modalInput"
+            className="modalInput mt-4"
          />
          <input
             type="text"
