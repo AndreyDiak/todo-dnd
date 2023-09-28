@@ -13,8 +13,8 @@ export const ProjectsHeader = () => {
       });
    };
    return (
-      <div className="flex items-center justify-between py-4 px-10 border-b border-gray-400 mb-4">
-         <div className="text-lg font-medium">Выберите проект</div>
+      <div className="flex items-center justify-between py-4 px-4 md:px-10 border-b border-gray-400 mb-4">
+         <div className="text-base md:text-lg font-medium">Выберите проект</div>
          <Button onClick={handleModal}>Создать новый проект</Button>
       </div>
    );

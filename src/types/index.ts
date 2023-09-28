@@ -48,8 +48,14 @@ export type UpdateTaskDto = Partial<Omit<Task, '_id' | '_projectId' | 'createdAt
 
 export interface Comment {
    _id: string;
+   _headCommentId?: string;
+   isReply: boolean;
    text: string;
-   replies_ids: Comment[];
-   // ownerId: string;
+   replies_ids: string[];
+   createdAt: Date;
    // ownerName: string;
 }
+
+export type CreateCommentDto = Omit<Comment, 'replies_ids' | '_id' | 'createdAt'>;
+
+export type UpdateCommentDto = Partial<Omit<Comment, '_id'>>;

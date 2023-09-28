@@ -14,11 +14,11 @@ export const Selector = <T extends string>({ items, defaultValue, onChange }: Pr
    const [active, setActive] = useState(defaultValue);
 
    return (
-      <div className="bg-gray-200 rounded-md space-x-4 px-2 py-1 max-w-fit">
+      <div className="bg-gray-200 rounded-md space-x-1 md:space-x-4 px-2 py-1 max-w-fit">
          {items.map(({ value, label }, index) => (
             <button
                key={index}
-               className={`py-1 px-2 rounded-lg font-semibold font-sans text-gray-700 ${
+               className={`py-1 px-2 text-sm md:text-base rounded-lg font-semibold font-sans text-gray-700 ${
                   active === value ? 'bg-gray-400 text-gray-900' : ''
                }`}
                onClick={() => {

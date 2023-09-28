@@ -26,14 +26,16 @@ export const ProjectHeader = () => {
    };
 
    return (
-      <div className="flex justify-between space-x-10 items-center px-4 py-2 border-b border-gray-400">
+      <div className="flex justify-between flex-col space-y-2 md:flex-row md:space-x-10 items-start md:items-center px-4 py-2 border-b border-gray-400">
          {/* project info */}
-         <div>
-            <h1 className="font-bold text-xl">{project.header}</h1>
-            <p className="text-gray-600">{project.description}</p>
+         <div className="flex items-center space-x-2">
+            <div>
+               <h1 className="font-bold text-base md:text-xl">{project.header}</h1>
+               <p className="text-gray-600 text-sm md:text-base">{project.description}</p>
+            </div>
+            {/* task search */}
+            <TaskSearch />
          </div>
-         {/* task search */}
-         <TaskSearch />
          {/* buttons */}
          <div className="flex space-x-2">
             <Button onClick={onCreateTaskHandler} color="green">

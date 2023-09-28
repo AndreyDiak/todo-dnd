@@ -19,7 +19,7 @@ export const Button: React.FC<Props> = ({ children, className, color, onClick })
    return (
       <button
          onClick={onClick}
-         className={`text-white px-3 py-2 rounded-md text-base font-bold ${
+         className={`text-white text-sm px-2 py-1 lg:px-3 lg:py-2 rounded-md lg:text-base font-bold ${
             buttonColorMap[color ?? defaultColor]
          } ${className}`}
       >

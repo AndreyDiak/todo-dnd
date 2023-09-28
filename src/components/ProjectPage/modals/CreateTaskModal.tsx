@@ -28,7 +28,7 @@ export const CreateTaskModal = () => {
    };
 
    return (
-      <div className="flex flex-col space-y-2 font-semibold text-gray-600 font-sans min-w-[500px]">
+      <div className="flex flex-col space-y-2 font-semibold text-gray-600 font-sans">
          <TaskForm initialValue={TASK_DEFAULT_VALUE} onSubmitHandler={handleCreate}>
             {(submitHandler) => <Button onClick={submitHandler}>Создать задачу</Button>}
          </TaskForm>

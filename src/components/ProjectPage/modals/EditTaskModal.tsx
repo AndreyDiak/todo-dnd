@@ -5,7 +5,14 @@ import { ModalContext } from '../../../context/modalContext';
 import { useTask } from '../../../hooks';
 import { Task } from '../../../types';
 import { Button } from '../../common';
-import { TaskForm, TaskPriority, TaskStatus, TaskSubtask, TaskSubtaskList } from '../Task';
+import {
+   CommentsList,
+   TaskForm,
+   TaskPriority,
+   TaskStatus,
+   TaskSubtask,
+   TaskSubtaskList,
+} from '../Task';
 
 import parse from 'html-react-parser';
 
@@ -58,7 +65,7 @@ export const EditTaskModal: React.FC<Props> = ({ task }) => {
    }
 
    return (
-      <div className="flex flex-col space-y-6 font-semibold text-gray-600 font-sans">
+      <div className="flex flex-col space-y-2 font-semibold text-gray-600 font-sans">
          <div
             className={`formBlock flex flex-col justify-center space-x-4 ${
                isBigDescription ? 'md:flex-row' : 'md:flex-col'
@@ -66,7 +73,7 @@ export const EditTaskModal: React.FC<Props> = ({ task }) => {
          >
             <div
                className={`border-gray-200 border-b-[1px] md:border-b-0 px-2 py-2 mx-2 mb-2 ${
-                  isBigDescription ? 'md:border-r-[1px]' : 'md:border-b-[1px]'
+                  isBigDescription ? 'md:border-r-[1px] max-w-xl' : 'md:border-b-[1px]'
                }`}
             >
                {parse(task.description ?? '')}
@@ -98,12 +105,13 @@ export const EditTaskModal: React.FC<Props> = ({ task }) => {
          </div>
          <TaskSubtaskList subtaskIds={task.subtasks_ids} />
          <TaskSubtask isSubtask={task.isSubtask} headTaskId={task._headTaskId} />
-         <div className="flex space-x-2 items-center justify-end">
+         <div className="flex space-x-2 items-center justify-end pb-2">
             <Button onClick={() => setIsEditing(true)}>Редактировать задачу</Button>
             <Button onClick={handleDelete} color="red">
                Удалить
             </Button>
          </div>
+         <CommentsList taskId={task._id} />
       </div>
    );
 };
