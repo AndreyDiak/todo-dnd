@@ -19,7 +19,7 @@ export const TaskSearch = React.memo(() => {
       <input
          type="text"
          className="modalInput flex-1 font-semibold text-gray-600"
-         placeholder="TAKS-ID or title..."
+         placeholder="ID или название"
          value={value}
          onChange={(e) => setValue(e.target.value)}
       />

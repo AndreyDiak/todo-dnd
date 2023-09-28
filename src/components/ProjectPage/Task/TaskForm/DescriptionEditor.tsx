@@ -43,6 +43,7 @@ export const DescriptionEditor = forwardRef<any, Props>((props, ref) => {
          initialValue={props.initialValue}
          init={{
             height: 300,
+            width: '100%',
             menubar: false,
             plugins,
             toolbar,

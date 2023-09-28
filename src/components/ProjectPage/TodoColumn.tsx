@@ -6,6 +6,8 @@ import { TaskCard } from './Task/TaskCard';
 interface Props {
    droppableId: Status;
    items: Task[];
+   isVisible?: boolean;
+   visibleCols: number;
 }
 
 const columnNameMap: Record<Status, string> = {
@@ -22,23 +24,40 @@ const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
    ...draggableStyle,
 });
 
-export const TodoColumn: React.FC<Props> = ({ items, droppableId }) => {
+export const TodoColumn: React.FC<Props> = ({
+   items,
+   droppableId,
+   isVisible = true,
+   visibleCols,
+}) => {
    const totalItems = items.length;
+
+   const isMobile = screen.width <= 768;
 
    const renderTotal = () => {
       if (totalItems === 0) return null;
 
       return (
-         <span className="text-gray-500">
+         <span className="text-gray-500 text-xs sm:text-sm md:text-base">
             ({droppableId === Status.Done ? 'всего' : 'осталось'} <b>{totalItems}</b>)
          </span>
       );
    };
 
    return (
-      <div className="flex flex-col h-[85%] w-[400px] bg-slate-200 rounded-lg p-6 justify-start items-center space-y-4">
-         <div className="flex space-x-2 items-center">
-            <h2 className="font-semibold text-gray-600 text-lg">{columnNameMap[droppableId]} </h2>
+      <div
+         className={`flex-col h-5/6 bg-slate-200 rounded-lg p-2 sm:p-4 md:p-6 justify-start items-center md:space-y-4 ${
+            isVisible ? 'flex' : 'hidden'
+         }`}
+         style={{
+            width: `${100 / visibleCols}%`,
+            maxWidth: isMobile ? '70%' : '50%',
+         }}
+      >
+         <div className="flex flex-col space-y-1 md:flex-row md:space-x-2 items-center">
+            <h2 className="font-semibold text-gray-600 text-sm md:text-lg">
+               {columnNameMap[droppableId]}{' '}
+            </h2>
             {renderTotal()}
          </div>
          <Droppable droppableId={droppableId}>
@@ -46,7 +65,7 @@ export const TodoColumn: React.FC<Props> = ({ items, droppableId }) => {
                <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className="w-full h-full overflow-y-auto flex flex-col space-y-4"
+                  className="w-full h-full overflow-y-auto flex flex-1 flex-col space-y-2 md:space-y-4 px-1 md:px-4"
                >
                   {items.map((task, index) => (
                      <Draggable key={task._id} draggableId={task._id} index={index}>

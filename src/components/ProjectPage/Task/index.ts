@@ -5,3 +5,4 @@ export { TaskSubtaskList } from './TaskSubtaskList';
 export { TaskCard } from './TaskCard';
 export { TaskForm } from './TaskForm/TaskForm';
 export { TaskSearch } from './TaskSearch';
+export { CommentsList } from './Comments/CommentsList';

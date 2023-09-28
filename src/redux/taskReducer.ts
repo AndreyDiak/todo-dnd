@@ -14,10 +14,10 @@ const initialState = {
    filter: '',
 };
 
-type InitialProjectState = typeof initialState;
+type InitialTaskState = typeof initialState;
 type TaskActionType = InferActionsType<typeof taskActions>;
 
-export const taskReducer = (state = initialState, action: TaskActionType): InitialProjectState => {
+export const taskReducer = (state = initialState, action: TaskActionType): InitialTaskState => {
    switch (action.type) {
       case SET_TASKS: {
          const { tasks, projectId } = action;

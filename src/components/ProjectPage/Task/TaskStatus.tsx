@@ -15,7 +15,7 @@ const statusTextMap: Record<Status, string> = {
 
 export const TaskStatus = React.memo(({ status }: { status: Status }) => {
    return (
-      <span className={`text-lg font-base text-right ${statusColorMap[status]}`}>
+      <span className={`text-xs md:text-lg font-base text-right ${statusColorMap[status]}`}>
          {statusTextMap[status]}
       </span>
    );

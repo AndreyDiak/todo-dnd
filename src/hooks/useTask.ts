@@ -8,6 +8,7 @@ import { useProject } from './useProject';
 import { v4 as uuidv4 } from 'uuid';
 import { projectActions } from '../redux/projectReducer';
 import { getQueuedTasks } from '../utils';
+import { useComment } from './useComment';
 
 interface UseTask {
    // task: Task;
@@ -22,6 +23,8 @@ export function useTask(): UseTask {
 
    const { create, update, get, remove } = useLocalStorage();
 
+   const { deleteComment } = useComment();
+
    const dispatch = useDispatch();
 
    const getTaskById = useCallback(
@@ -35,21 +38,16 @@ export function useTask(): UseTask {
       (taskId: string, headTaskId: string, type: 'add' | 'remove') => {
          const headTask = getTaskById(headTaskId);
 
-         const newSubtasksIds =
-            type === 'add'
-               ? [...headTask.subtasks_ids, taskId]
-               : headTask.subtasks_ids.filter((id) => id !== taskId);
+         const newHeadTaskData: Partial<Task> = {
+            subtasks_ids:
+               type === 'add'
+                  ? [...headTask.subtasks_ids, taskId]
+                  : headTask.subtasks_ids.filter((id) => id !== taskId),
+         };
 
-         // TODO сделать отдельной функцией...
-         update<Task>(`task-${headTaskId}`, {
-            subtasks_ids: newSubtasksIds,
-         });
+         update<Task>(`task-${headTaskId}`, newHeadTaskData);
 
-         dispatch(
-            taskActions.updateTask(project._id, headTaskId, {
-               subtasks_ids: newSubtasksIds,
-            }),
-         );
+         dispatch(taskActions.updateTask(project._id, headTaskId, newHeadTaskData));
       },
       [dispatch, getTaskById, project._id, update],
    );
@@ -129,6 +127,8 @@ export function useTask(): UseTask {
 
    const deleteTask = useCallback(
       (taskId: string) => {
+         const task = getTaskById(taskId);
+
          const newTasksIds = project.tasks_ids.filter((id) => id !== taskId);
 
          const { _headTaskId, isSubtask } = getTaskById(taskId);
@@ -137,6 +137,13 @@ export function useTask(): UseTask {
          if (isSubtask && _headTaskId) {
             updateHeadTask(taskId, _headTaskId, 'remove');
          }
+
+         if (task.comments_ids.length !== 0) {
+            task.comments_ids.forEach((commentId) => {
+               deleteComment(taskId, commentId);
+            });
+         }
+
          // обновляем localStorage
          remove(`task-${taskId}`);
 
@@ -153,7 +160,16 @@ export function useTask(): UseTask {
             }),
          );
       },
-      [dispatch, getTaskById, project._id, project.tasks_ids, remove, update, updateHeadTask],
+      [
+         deleteComment,
+         dispatch,
+         getTaskById,
+         project._id,
+         project.tasks_ids,
+         remove,
+         update,
+         updateHeadTask,
+      ],
    );
 
    return useMemo(() => {

@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Priority } from '../../../types';
+
+interface Props {
+   priority: Priority;
+   needToAdaptive?: boolean;
+}
 
 const priorityColorsMap: Record<Priority, string> = {
    [Priority.Low]: '#44944A',
@@ -14,15 +19,17 @@ export const priorityTextMap: Record<Priority, string> = {
    [Priority.Highest]: 'Критический',
 };
 
-export const TaskPriority = React.memo(({ priority }: { priority: Priority }) => {
+export const TaskPriority = React.memo(({ priority, needToAdaptive = false }: Props) => {
+   const isMobile = window.innerWidth < 768;
+
    return (
       <span
-         className={`text-lg font-semibold`}
+         className={`text-lg font-semibold ${needToAdaptive ? 'text-lg' : ''}`}
          style={{
             color: priorityColorsMap[priority],
          }}
       >
-         {priorityTextMap[priority]}
+         {needToAdaptive && isMobile ? '●' : priorityTextMap[priority]}
       </span>
    );
 });

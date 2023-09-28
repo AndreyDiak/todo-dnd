@@ -35,7 +35,12 @@ export function useProjectTasks(projectId: string): UseTasks {
 
    const { updateTask } = useTask();
 
-   const rawTasks = useSelector((state: AppStateType) => getAllTasksByProjectId(state, projectId));
+   const rawTasksSelector = useCallback(
+      (state: AppStateType) => getAllTasksByProjectId(state, projectId),
+      [projectId],
+   );
+
+   const rawTasks = useSelector(rawTasksSelector);
 
    const filter = useSelector(getFilter);
 

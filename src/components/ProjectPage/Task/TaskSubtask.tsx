@@ -3,24 +3,29 @@ import { useTask } from '../../../hooks';
 
 interface Props {
    isSubtask: boolean;
+   needToAdaptive?: boolean;
    headTaskId?: string;
 }
 
-export const TaskSubtask = React.memo(({ isSubtask, headTaskId }: Props) => {
-   const { getTaskById } = useTask();
+export const TaskSubtask = React.memo(
+   ({ isSubtask, headTaskId, needToAdaptive = false }: Props) => {
+      const { getTaskById } = useTask();
 
-   if (!isSubtask || !headTaskId) {
-      return null;
-   }
+      if (!isSubtask || !headTaskId) {
+         return null;
+      }
 
-   return (
-      <div>
-         <span className="text-gray-400">
-            Подзадача для{' '}
-            <span className="font-bold text-gray-400">{getTaskById(headTaskId).number}</span>
-         </span>
-      </div>
-   );
-});
+      return (
+         <div>
+            <span className="md:text-base leading-3 text-xs text-gray-400">
+               <p>
+                  Подзадача для{' '}
+                  <span className="font-bold text-gray-400">{getTaskById(headTaskId).number}</span>
+               </p>
+            </span>
+         </div>
+      );
+   },
+);
 
 TaskSubtask.displayName = 'TaskSubtask';
